@@ -1,15 +1,12 @@
-using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController(AppDbContext dbContext) : ControllerBase
+    public class UserController(AppDbContext dbContext) : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AppUser>>> GetUser()
@@ -18,6 +15,7 @@ namespace API.Controllers
             return users;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(string id)
         {
